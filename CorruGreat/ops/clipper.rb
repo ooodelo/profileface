@@ -31,7 +31,7 @@ module CorruGreat
         cutter.transform!(Geom::Transformation.translation(offset))
         face.pushpull(depth)
 
-        group.entities.intersect_with(true, group.transformation, group.entities, group.transformation, false, cutter_entities)
+        group.entities.intersect_with(false, group.transformation, group.entities, group.transformation, false, cutter_entities)
         prune_outside_faces(group, source_face)
         remove_orphan_edges(group)
       ensure
