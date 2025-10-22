@@ -51,7 +51,12 @@ module CorruGreat
       def build_face_copy(entities, source_face)
         outer_points = source_face.outer_loop.vertices.map(&:position)
         base_face = entities.add_face(outer_points)
-        source_face.inner_loops.each do |loop|
+        return base_face unless base_face
+
+        source_face.loops.each do |loop|
+          next if loop == source_face.outer_loop
+          next if loop.respond_to?(:outer?) && loop.outer?
+
           points = loop.vertices.map(&:position)
           hole = entities.add_face(points)
           hole&.erase!

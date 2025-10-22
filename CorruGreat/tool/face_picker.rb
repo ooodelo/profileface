@@ -29,19 +29,22 @@ module CorruGreat
         reset_state
       end
 
-      def activate(view)
-        @model = view.model
-        view.invalidate
+      def activate(view = nil)
+        view = ensure_view(view)
+        @model = view&.model
+        view&.invalidate
       end
 
-      def deactivate(view)
+      def deactivate(view = nil)
         close_dialog
         reset_state
-        view.invalidate
+        view = ensure_view(view)
+        view&.invalidate
       end
 
-      def resume(view)
-        view.invalidate
+      def resume(view = nil)
+        view = ensure_view(view)
+        view&.invalidate
       end
 
       def getExtents
@@ -236,6 +239,14 @@ module CorruGreat
         1.0 / scale
       rescue StandardError
         1.0
+      end
+
+      def ensure_view(view)
+        return view if view
+
+        Sketchup.active_model&.active_view
+      rescue StandardError
+        nil
       end
     end
   end
