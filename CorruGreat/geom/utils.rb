@@ -7,13 +7,13 @@ module CorruGreat
 
       def centroid(face)
         points = face.vertices.map(&:position)
-        return Geom::Point3d.new(0, 0, 0) if points.empty?
+        return ::Geom::Point3d.new(0, 0, 0) if points.empty?
 
-        sum = points.inject(Geom::Point3d.new(0, 0, 0)) do |acc, point|
-          Geom::Point3d.new(acc.x + point.x, acc.y + point.y, acc.z + point.z)
+        sum = points.inject(::Geom::Point3d.new(0, 0, 0)) do |acc, point|
+          ::Geom::Point3d.new(acc.x + point.x, acc.y + point.y, acc.z + point.z)
         end
         scale = 1.0 / points.length
-        Geom::Point3d.new(sum.x * scale, sum.y * scale, sum.z * scale)
+        ::Geom::Point3d.new(sum.x * scale, sum.y * scale, sum.z * scale)
       end
 
       def ensure_length(value, fallback)
@@ -24,7 +24,7 @@ module CorruGreat
       end
 
       def safe_normalize(vector)
-        return Geom::Vector3d.new(1, 0, 0) if vector.nil? || vector.length.zero?
+        return ::Geom::Vector3d.new(1, 0, 0) if vector.nil? || vector.length.zero?
 
         vector.normalize
       end

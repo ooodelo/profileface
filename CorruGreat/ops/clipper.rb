@@ -28,7 +28,7 @@ module CorruGreat
         offset = normal.clone
         offset.length = depth / 2.0
         offset.reverse!
-        cutter.transform!(Geom::Transformation.translation(offset))
+        cutter.transform!(::Geom::Transformation.translation(offset))
         face.pushpull(depth)
 
         group.entities.intersect_with(true, group.transformation, group.entities, group.transformation, false, cutter_entities)

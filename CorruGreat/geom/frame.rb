@@ -21,7 +21,7 @@ module CorruGreat
           @v_axis = base_v
         end
 
-        @transformation = Geom::Transformation.axes(@origin, @u_axis, @v_axis, @normal)
+        @transformation = ::Geom::Transformation.axes(@origin, @u_axis, @v_axis, @normal)
         @inverse = @transformation.inverse
       end
 
@@ -70,11 +70,11 @@ module CorruGreat
 
       def fallback_axis
         candidates = [
-          Geom::Vector3d.new(1, 0, 0),
-          Geom::Vector3d.new(0, 1, 0),
-          Geom::Vector3d.new(0, 0, 1)
+          ::Geom::Vector3d.new(1, 0, 0),
+          ::Geom::Vector3d.new(0, 1, 0),
+          ::Geom::Vector3d.new(0, 0, 1)
         ]
-        candidates.find { |vector| !vector.parallel?(@normal) } || Geom::Vector3d.new(1, 0, 0)
+        candidates.find { |vector| !vector.parallel?(@normal) } || ::Geom::Vector3d.new(1, 0, 0)
       end
     end
   end

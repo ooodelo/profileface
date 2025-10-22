@@ -9,7 +9,7 @@ module CorruGreat
       def build(face, params)
         frame = Frame.new(face, direction: params.direction)
         uv_bounds = frame.bounds_uv
-        mesh = Geom::PolygonMesh.new
+        mesh = ::Geom::PolygonMesh.new
 
         u_range = expand_range(uv_bounds[:u], params.pitch)
         v_range = expand_range(uv_bounds[:v], params.pitch / 2.0)
@@ -28,7 +28,7 @@ module CorruGreat
           (0...v_count).each do |iv|
             v = v_range.first + iv * v_step
             height = wave_height(params.amplitude, u, period)
-            local_point = Geom::Point3d.new(u, v, height)
+            local_point = ::Geom::Point3d.new(u, v, height)
             world_point = frame.local_to_world(local_point)
             indices[iu][iv] = mesh.add_point(world_point)
           end
@@ -61,7 +61,7 @@ module CorruGreat
           (0...count_u).each do |j|
             u = u_min + sample_u_step * j
             height = wave_height(params.amplitude, u, period)
-            point = frame.local_to_world(Geom::Point3d.new(u, v, height))
+            point = frame.local_to_world(::Geom::Point3d.new(u, v, height))
             polyline << point
           end
           paths << polyline
