@@ -45,7 +45,7 @@ module CorruGreat
       end
 
       def getExtents
-        bbox = Geom::BoundingBox.new
+        bbox = ::Geom::BoundingBox.new
         face = @selected_face || @hover_face
         if CorruGreat::Geom::Utils.valid_face?(face)
           face.vertices.each { |vertex| bbox.add(vertex.position) }
@@ -71,18 +71,18 @@ module CorruGreat
 
       def onKeyDown(key, repeat, flags, view)
         case key
-        when CONSTRAIN_MODIFIER_KEY
+        when ::CONSTRAIN_MODIFIER_KEY
           return if repeat.to_i > 1
 
           @params.flip_direction!
           CorruGreat::Commands.store_last_params(@params)
           rebuild_preview
           view.invalidate
-        when VK_RETURN
+        when ::VK_RETURN
           apply_current_selection
-        when defined?(VK_ENTER) && VK_ENTER
+        when defined?(::VK_ENTER) && ::VK_ENTER
           apply_current_selection
-        when VK_ESCAPE
+        when ::VK_ESCAPE
           reset_selection
           view.invalidate
         end
@@ -208,9 +208,9 @@ module CorruGreat
         return unless @cursor_position
 
         scale = cursor_pixel_scale
-        apex = Geom::Point3d.new(@cursor_position.x, @cursor_position.y, 0.0)
-        base_right = Geom::Point3d.new(apex.x + 16.0 * scale, apex.y + 6.0 * scale, 0.0)
-        base_left = Geom::Point3d.new(apex.x + 5.0 * scale, apex.y + 20.0 * scale, 0.0)
+        apex = ::Geom::Point3d.new(@cursor_position.x, @cursor_position.y, 0.0)
+        base_right = ::Geom::Point3d.new(apex.x + 16.0 * scale, apex.y + 6.0 * scale, 0.0)
+        base_left = ::Geom::Point3d.new(apex.x + 5.0 * scale, apex.y + 20.0 * scale, 0.0)
 
         view.drawing_color = CURSOR_FILL_COLOR
         view.draw2d(GL_TRIANGLES, apex, base_right, base_left)
@@ -221,7 +221,7 @@ module CorruGreat
       end
 
       def update_cursor_position(x, y)
-        @cursor_position = Geom::Point3d.new(x.to_f, y.to_f, 0.0)
+        @cursor_position = ::Geom::Point3d.new(x.to_f, y.to_f, 0.0)
       end
 
       def cursor_pixel_scale
