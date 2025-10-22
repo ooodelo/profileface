@@ -9,12 +9,12 @@ module CorruGreat
     def register
       return if defined?(@registered) && @registered
 
-      @command = UI::Command.new(CorruGreat::EXTENSION_NAME) { activate_tool }
+      @command = ::UI::Command.new(CorruGreat::EXTENSION_NAME) { activate_tool }
       @command.tooltip = 'CorruGreat — Face→Профлист (синус)'
       @command.status_bar_text = 'Convert a planar face into a corrugated sine-wave sheet.'
       @command.set_validation_proc { tool_active? ? MF_CHECKED : MF_ENABLED }
 
-      menu = UI.menu(MENU_PATH.first)
+      menu = ::UI.menu(MENU_PATH.first)
       submenu = MENU_PATH.drop(1).inject(menu) { |current, name| current.add_submenu(name) }
       submenu.add_item(@command)
 

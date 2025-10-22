@@ -16,7 +16,7 @@ module CorruGreat
 
           @transparent_cursor_id = begin
             if File.exist?(TRANSPARENT_CURSOR_PATH)
-              UI.create_cursor(TRANSPARENT_CURSOR_PATH, CURSOR_HOTSPOT[0], CURSOR_HOTSPOT[1])
+              ::UI.create_cursor(TRANSPARENT_CURSOR_PATH, CURSOR_HOTSPOT[0], CURSOR_HOTSPOT[1])
             end
           rescue StandardError
             nil
@@ -99,7 +99,7 @@ module CorruGreat
           view.invalidate
           @dialog&.update(@params)
         rescue StandardError
-          UI.beep
+          ::UI.beep
         end
       end
 
@@ -145,7 +145,7 @@ module CorruGreat
         cursor_id = self.class.transparent_cursor_id
         return false unless cursor_id
 
-        UI.set_cursor(cursor_id)
+        ::UI.set_cursor(cursor_id)
       end
 
       private
@@ -228,9 +228,9 @@ module CorruGreat
         version_major = Sketchup.respond_to?(:version) ? Sketchup.version.to_i : 0
         return 1.0 unless version_major >= 25
 
-        return 1.0 unless UI.respond_to?(:scale_factor)
+        return 1.0 unless ::UI.respond_to?(:scale_factor)
 
-        scale = UI.scale_factor.to_f
+        scale = ::UI.scale_factor.to_f
         return 1.0 unless scale.positive?
 
         1.0 / scale

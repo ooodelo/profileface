@@ -39,9 +39,9 @@ module CorruGreat
           resizable: true,
           width: WIDTH,
           height: HEIGHT,
-          style: UI::HtmlDialog::STYLE_DIALOG
+          style: ::UI::HtmlDialog::STYLE_DIALOG
         }
-        @dialog = UI::HtmlDialog.new(options)
+        @dialog = ::UI::HtmlDialog.new(options)
         @dialog.set_file(html_path)
         register_callbacks
       end

@@ -24,7 +24,7 @@ module CorruGreat
         group
       rescue StandardError => e
         model.abort_operation
-        UI.messagebox("CorruGreat failed: #{e.message}")
+        ::UI.messagebox("CorruGreat failed: #{e.message}")
         raise e
       end
 
