@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <title>CorruGreat — Face→Профлист (синус)</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        margin: 16px;
+        color: #1f2933;
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 12px;
+      }
+
+      label span {
+        display: block;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+        color: #52606d;
+      }
+
+      input[type='text'],
+      select,
+      input[type='number'] {
+        width: 100%;
+        padding: 6px 8px;
+        font-size: 14px;
+        border: 1px solid #d2d6dc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .buttons {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 16px;
+      }
+
+      button {
+        padding: 6px 14px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        background: #2563eb;
+        color: #fff;
+        font-size: 13px;
+        cursor: pointer;
+      }
+
+      button.secondary {
+        background: #e4e7eb;
+        color: #1f2933;
+      }
+
+      .preview-note {
+        font-size: 12px;
+        color: #8895a7;
+        margin-top: -6px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>CorruGreat — Face→Профлист (синус)</h1>
+    <form id="corrugreat-form">
+      <label>
+        <span>Направление</span>
+        <select id="direction">
+          <option value="u">Вдоль</option>
+          <option value="v">Поперёк</option>
+        </select>
+      </label>
+      <label>
+        <span>Высота волны (A)</span>
+        <input id="amplitude" type="text" placeholder="например, 50mm" />
+      </label>
+      <label>
+        <span>Шаг волны (P)</span>
+        <input id="pitch" type="text" placeholder="например, 200mm" />
+      </label>
+      <label>
+        <span>Сегментов на волну (N)</span>
+        <input id="segments" type="number" min="3" step="1" />
+      </label>
+      <p class="preview-note">Нажмите «Предпросмотр» для обновления превью без коммита.</p>
+      <div class="buttons">
+        <button type="button" class="secondary" id="cancel">Отмена</button>
+        <button type="button" class="secondary" id="preview">Предпросмотр</button>
+        <button type="button" id="apply">Применить</button>
+      </div>
+    </form>
+    <script>
+      window.CorruGreatDialog = {
+        setParameters(params) {
+          if (!params) return;
+          document.getElementById('direction').value = params.direction || 'u';
+          document.getElementById('amplitude').value = params.amplitude || '';
+          document.getElementById('pitch').value = params.pitch || '';
+          document.getElementById('segments').value = params.segments_per_period || 16;
+        },
+        gather() {
+          return {
+            direction: document.getElementById('direction').value,
+            amplitude: document.getElementById('amplitude').value,
+            pitch: document.getElementById('pitch').value,
+            segments_per_period: parseInt(document.getElementById('segments').value, 10) || 16
+          };
+        }
+      };
+
+      function send(action, payload) {
+        if (window.sketchup && typeof window.sketchup[action] === 'function') {
+          window.sketchup[action](JSON.stringify(payload));
+        }
+      }
+
+      document.getElementById('apply').addEventListener('click', () => {
+        send('apply', window.CorruGreatDialog.gather());
+      });
+
+      document.getElementById('preview').addEventListener('click', () => {
+        send('preview', window.CorruGreatDialog.gather());
+      });
+
+      document.getElementById('cancel').addEventListener('click', () => {
+        send('cancel', {});
+      });
+
+      window.addEventListener('DOMContentLoaded', () => {
+        if (window.sketchup && typeof window.sketchup.ready === 'function') {
+          window.sketchup.ready();
+        }
+      });
+    </script>
+  </body>
+</html>
